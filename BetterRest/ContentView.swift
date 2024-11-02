@@ -70,39 +70,59 @@ struct ContentView: View {
         NavigationStack {
             Form {
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    // UI for wake up time
-                    Text("When do you want to wake up?")
-                        .font(.headline)
+                // UI for wake up time
+                Section("When do you want to wake up?") {
                     DatePicker("Please, enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
                         .labelsHidden()
                 }
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    // UI for hours of sleep
-                    Text("Desired amount of sleep")
-                        .font(.headline)
+                // UI for hours of sleep
+                Section("Desired amount of sleep") {
                     Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
                 }
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    // UI for cups of coffee per day
-                    Text("Daily coffee intake")
-                        .font(.headline)
-                    Stepper("^[\(coffeeAmount) cup](inflect: true)", value: $coffeeAmount, in: 1...20)
+                // UI for cups of coffee per day
+                Section("Daily coffee intake") {
+//                    Stepper("^[\(coffeeAmount) cup](inflect: true)", value: $coffeeAmount, in: 1...20)
+                    Picker("Number of cups", selection: $coffeeAmount) {
+                        ForEach(0..<21) { num in
+                            if num != 0 {
+                                Text("^[\(num) cup](inflect: true)")
+                            }
+                        }
+                    }
+                    .pickerStyle(.wheel)
+                }
+                
+                // UI for displaying the predicted bedtime
+                Section(alertTitle) {
+                    Text(alertMessage)
+                        .font(.largeTitle)
                 }
             }
             .navigationTitle("BetterRest")
-            .toolbar {
-                Button("Calculate") {
-                    calculateBedtime()
-                }
+            .onAppear {
+                calculateBedtime()
             }
-            .alert(alertTitle, isPresented: $isShowingAlert) {
-                Button("OK", role: .destructive) {}
-            } message: {
-                Text(alertMessage)
+            .onChange(of: wakeUp) {
+                calculateBedtime()
             }
+            .onChange(of: sleepAmount) {
+                calculateBedtime()
+            }
+            .onChange(of: coffeeAmount) {
+                calculateBedtime()
+            }
+//            .toolbar {
+//                Button("Calculate") {
+//                    calculateBedtime()
+//                }
+//            }
+//            .alert(alertTitle, isPresented: $isShowingAlert) {
+//                Button("OK", role: .destructive) {}
+//            } message: {
+//                Text(alertMessage)
+//            }
         }
     }
 }
