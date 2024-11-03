@@ -6,11 +6,11 @@
 ### BetterRest is a simple app that recommends you the ideal bedtime based on how much coffee they drank throughout the day, how much sleep they would like to have and when they wish to wake up.
 ### BetterRest uses a regression algorithm to come up with a quasi-accurate prediction.
 
+<img src="./images/BetterRest.gif" width="25%" height="25%"/>
+
 ### DISCLAIMER:
 
 Keep in mind that the application is meant to work as a <em>suggestion</em> and not as a health-related recommendation. You should always refer to your doctor for any health-related advice.
-
-<img src="./images/BetterRest.gif" width="25%" height="25%"/>
 
 ### NOTE:
 
